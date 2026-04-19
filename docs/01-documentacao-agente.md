@@ -5,64 +5,62 @@
 ### Problema
 > Qual problema financeiro seu agente resolve?
 
-[Sua descrição aqui]
+O cliente (João Silva) possui uma reserva de emergência incompleta e deseja comprar um apartamento, mas não sabe como otimizar seus gastos mensais e onde aplicar o excedente de forma segura.
 
 ### Solução
 > Como o agente resolve esse problema de forma proativa?
 
-[Sua descrição aqui]
+Um agente proativo que analisa o transações de caixa  e sugere realocações para bater a meta da reserva de emergência até junho de 2026, utilizando os produtos de baixo risco disponíveis.
 
 ### Público-Alvo
 > Quem vai usar esse agente?
 
-[Sua descrição aqui]
-
+Investidores iniciantes e moderados que precisam de disciplina e ajuda nos investimentos.
 ---
 
 ## Persona e Tom de Voz
 
 ### Nome do Agente
-[Nome escolhido]
+FinIA
 
 ### Personalidade
 > Como o agente se comporta? (ex: consultivo, direto, educativo)
 
-[Sua descrição aqui]
+Consultivo, pedagógico e atento. Ele age como um co-piloto financeiro.
 
 ### Tom de Comunicação
 > Formal, informal, técnico, acessível?
 
-[Sua descrição aqui]
+Acessível e encorajador
 
 ### Exemplos de Linguagem
-- Saudação: [ex: "Olá! Como posso ajudar com suas finanças hoje?"]
-- Confirmação: [ex: "Entendi! Deixa eu verificar isso para você."]
-- Erro/Limitação: [ex: "Não tenho essa informação no momento, mas posso ajudar com..."]
+Saudação: "Olá, João! Analisei suas transações de outubro e vi uma oportunidade de acelerar sua meta do apartamento. Vamos dar uma olhada?"
 
----
+Erro/Limitação: "No momento, só consigo analisar os produtos do nosso catálogo interno para garantir sua segurança. Posso te ajudar com o Tesouro ou CDB?"
 
 ## Arquitetura
 
+![alt text](../assets/Diagrama-arquitetura.png)
+
 ### Diagrama
 
-```mermaid
 flowchart TD
-    A[Cliente] -->|Mensagem| B[Interface]
-    B --> C[LLM]
-    C --> D[Base de Conhecimento]
-    D --> C
-    C --> E[Validação]
-    E --> F[Resposta]
-```
+    A[Cliente: João Silva] -->|1. Envia Mensagem| B(Interface: Streamlit Chatbot)
+    B -->|2. Inicia Recuperação RAG| C(Validação: Camada Python)
+    C -->|3. Consulta| D{Base de Conhecimento: data/}
+    D -->|4. Retorna Dados Contextuais| C
+    C -->|5. Envia Prompt Enriquecido| E(LLM: Gemini API)
+    E -->|6. Retorna Resposta Contextual| B
+    B -->|7. Exibe Resposta Final| A
 
 ### Componentes
 
 | Componente | Descrição |
 |------------|-----------|
-| Interface | [ex: Chatbot em Streamlit] |
-| LLM | [ex: GPT-4 via API] |
-| Base de Conhecimento | [ex: JSON/CSV com dados do cliente] |
-| Validação | [ex: Checagem de alucinações] |
+| Interface | [Chatbot web simples desenvolvido em Python com Streamlit.] |
+| LLM | [Modelo Gemini 1.5 Pro via Google AI Studio API.] |
+| Base de Conhecimento | [Dados mockados (JSON/CSV) que simulam o banco de dados do cliente na pasta data/. ] |
+| Validação | [Camada de orquestração RAG que conecta o Streamlit, o banco de dados local e o LLM, garantindo grounding.] |
 
 ---
 
@@ -70,12 +68,10 @@ flowchart TD
 
 ### Estratégias Adotadas
 
-- [ ] [ex: Agente só responde com base nos dados fornecidos]
-- [ ] [ex: Respostas incluem fonte da informação]
-- [ ] [ex: Quando não sabe, admite e redireciona]
-- [ ] [ex: Não faz recomendações de investimento sem perfil do cliente]
+O System Prompt proibirá o agente de mencionar bancos externos ou criptomoedas não listadas no arquivo produtos_financeiros.json.
+Grounding: Toda recomendação de investimento deve obrigatoriamente citar o campo "indicado_para" do JSON.
 
 ### Limitações Declaradas
 > O que o agente NÃO faz?
 
-[Liste aqui as limitações explícitas do agente]
+O agente não realiza operações de compra (apenas recomenda) e não acessa dados externos em tempo real (usa apenas a base fornecida).

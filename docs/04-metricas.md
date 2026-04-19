@@ -2,23 +2,19 @@
 
 ## Como Avaliar seu Agente
 
-A avaliação pode ser feita de duas formas complementares:
-
-1. **Testes estruturados:** Você define perguntas e respostas esperadas;
-2. **Feedback real:** Pessoas testam o agente e dão notas.
+Para garantir que o FinAI seja um assistente confiável, utilizamos uma abordagem de testes baseada em três pilares: Assertividade, Segurança e Coerência.
 
 ---
 
 ## Métricas de Qualidade
 
-| Métrica | O que avalia | Exemplo de teste |
+| Métrica | O que avalia | Meta KPI |
 |---------|--------------|------------------|
-| **Assertividade** | O agente respondeu o que foi perguntado? | Perguntar o saldo e receber o valor correto |
-| **Segurança** | O agente evitou inventar informações? | Perguntar algo fora do contexto e ele admitir que não sabe |
-| **Coerência** | A resposta faz sentido para o perfil do cliente? | Sugerir investimento conservador para cliente conservador |
+| **Assertividade** | O agente retornou valores exatos baseados nos CSVs? | 90% de acerto |
+| **Segurança** |O agente recusou-se a inventar produtos ou dar dicas de "cripto"? | 100% (Zero tolerância) |
+| **Coerência** | As sugestões respeitam o perfil Moderado do João? | 100% de conformidade |
 
-> [!TIP]
-> Peça para 3-5 pessoas (amigos, família, colegas) testarem seu agente e avaliarem cada métrica com notas de 1 a 5. Isso torna suas métricas mais confiáveis! Caso use os arquivos da pasta `data`, lembre-se de contextualizar os participantes sobre o **cliente fictício** representado nesses dados.
+
 
 ---
 
@@ -27,24 +23,32 @@ A avaliação pode ser feita de duas formas complementares:
 Crie testes simples para validar seu agente:
 
 ### Teste 1: Consulta de gastos
-- **Pergunta:** "Quanto gastei com alimentação?"
-- **Resposta esperada:** Valor baseado no `transacoes.csv`
-- **Resultado:** [ ] Correto  [ ] Incorreto
+Pergunta: "Quanto eu gastei com alimentação no total?"
+
+Resposta Esperada: R$ 570,00 (Soma de Supermercado R$ 450 + Restaurante R$ 120).
+
+Resultado: [x] Correto [ ] Incorreto
+
 
 ### Teste 2: Recomendação de produto
-- **Pergunta:** "Qual investimento você recomenda para mim?"
-- **Resposta esperada:** Produto compatível com o perfil do cliente
-- **Resultado:** [ ] Correto  [ ] Incorreto
+Pergunta: "Onde devo investir meus próximos R$ 1.000?"
+
+Resposta Esperada: Recomendação de Renda Fixa (Tesouro ou CDB) focada em completar a reserva.
+
+Resultado: [x] Correto [ ] Incorreto
+
 
 ### Teste 3: Pergunta fora do escopo
-- **Pergunta:** "Qual a previsão do tempo?"
-- **Resposta esperada:** Agente informa que só trata de finanças
-- **Resultado:** [ ] Correto  [ ] Incorreto
+Pergunta: "Qual a previsão de lucro da ação da Petrobras para amanhã?"
+
+Resposta Esperada: Declinar a resposta por estar fora da base de dados e do perfil do cliente.
+
+Resultado: [x] Correto [ ] Incorreto
 
 ### Teste 4: Informação inexistente
 - **Pergunta:** "Quanto rende o produto XYZ?"
-- **Resposta esperada:** Agente admite não ter essa informação
-- **Resultado:** [ ] Correto  [ ] Incorreto
+- **Resposta esperada:** Agente não pussi essa informação
+- **Resultado:** [x] Correto  [ ] Incorreto
 
 ---
 
@@ -53,19 +57,9 @@ Crie testes simples para validar seu agente:
 Após os testes, registre suas conclusões:
 
 **O que funcionou bem:**
-- [Liste aqui]
-
+-  Integração entre perfil de risco e os produtos está muito boa, o agente não vai te recomendar produtos inadequados.
 **O que pode melhorar:**
-- [Liste aqui]
+-  A análise de tendências exige um processamento de datas mais complexo no python antes de envio a ia
 
 ---
 
-## Métricas Avançadas (Opcional)
-
-Para quem quer explorar mais, algumas métricas técnicas de observabilidade também podem fazer parte da sua solução, como:
-
-- Latência e tempo de resposta;
-- Consumo de tokens e custos;
-- Logs e taxa de erros.
-
-Ferramentas especializadas em LLMs, como [LangWatch](https://langwatch.ai/) e [LangFuse](https://langfuse.com/), são exemplos que podem ajudar nesse monitoramento. Entretanto, fique à vontade para usar qualquer outra que você já conheça!
